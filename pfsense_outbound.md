@@ -10,7 +10,7 @@ Como utilizamos IP plublico em nossas vlans, consigo utilizar a saida de uma del
 
 No pfsense navegue ate **Firewall** > **NAT** > **Port Forward** e crie uma regra como mostro na imagem abaixo:
 
-![PFSENES!](https://eliasmoraispereira.files.wordpress.com/2016/10/9b369-outbound_vlan.png?w=300){:align="right" width="96px"}
+![PFSENES!](https://eliasmoraispereira.files.wordpress.com/2016/10/9b369-outbound_vlan.png?w=300)
 
 ## Detalhamento:
 
