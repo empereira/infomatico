@@ -1,37 +1,57 @@
-## Welcome to GitHub Pages
+Buenas pessoal, tudo tranquilo?
 
-You can use the [editor on GitHub](https://github.com/empereira/infomatico.github.io/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Hoje trago pra vocês a instalação, provisionamento e ajustes finos do samba4 DC. Vou utilizar um repositório não oficial, mas que é bastante utilizado e difundido na lista oficial do samba.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+[https://lists.samba.org/](https://lists.samba.org/)
 
-### Markdown
+Hands on!!!
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+## 1\. Instalação e Atualização da Distro base
 
-```markdown
-Syntax highlighted code block
+Distro (debian 10)
 
-# Header 1
-## Header 2
-### Header 3
+Atualizando:
 
-- Bulleted
-- List
+<pre>apt update && apt full-upgrade</pre>
 
-1. Numbered
-2. List
+### 1.1 Modificar o arquivo /etc/hosts
 
-**Bold** and _Italic_ and `Code` text
+<pre>127.0.0.1             localhost
+172.16.1.7            DC1.samdom.dominio.intra    DC1</pre>
 
-[Link](url) and ![Image](src)
-```
+### 1.2 Modificar o arquivo /etc/hostname
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Configure um nome de hostname:
 
-### Jekyll Themes
+<pre>DC1</pre>
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/empereira/infomatico.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+Fonte: [https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller#Preparing_the_Installation](https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller#Preparing_the_Installation)
 
-### Support or Contact
+Reinicie o servidor.
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## 2\. Instalação do pacote samba4
+
+<pre>apt install apt-transport-https
+wget -O - http://apt.van-belle.nl/louis-van-belle.gpg-key.asc | apt-key add -
+echo "# AptVanBelle repo" > /etc/apt/sources.list.d/van-belle.list
+echo "deb http://apt.van-belle.nl/debian buster-samba413 main contrib non-free" | tee -a /etc/apt/sources.list.d/van-belle.list
+apt-get update
+apt-get install -t o=AptVanBelle samba winbin</pre>
+
+Fonte: http://apt.van-belle.nl/
+
+## 3\. Provisionando
+
+### 3.1 Parâmetros que podem ser usados
+
+Para conhecer todos os parâmetros pode-se utilizar o comando:
+
+<pre>samba-tool domain provision --help</pre>
+
+### 3.2 Comando para o provisionamento
+
+Para provisionar execute o comando abaixo.
+
+<pre>samba-tool domain provision --use-rfc2307 --interactive</pre>
+
+[https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller](https://wiki.samba.org/index.php/Setting_up_Samba_as_an_Active_Directory_Domain_Controller)
